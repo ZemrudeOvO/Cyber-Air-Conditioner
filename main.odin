@@ -4,7 +4,9 @@ import rl "vendor:raylib"
 
 main :: proc() {
 	rl.SetTraceLogLevel(.WARNING)
-	rl.InitWindow(640, 360, "air-conditioner")
+	rl.SetConfigFlags({.MSAA_4X_HINT})
+
+	rl.InitWindow(640, 360, "cyber air conditioner")
 	defer rl.CloseWindow()
 	rl.InitAudioDevice()
 	defer rl.CloseAudioDevice()
