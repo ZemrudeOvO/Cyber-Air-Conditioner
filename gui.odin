@@ -133,3 +133,25 @@ draw_wind_symbol :: proc() {
 draw_light :: proc() {
 	rl.DrawCircle(569, 133, 2, on_off ? {255, 255, 0, 255} : {180, 180, 180, 255})
 }
+
+is_pin := true
+
+pin :: proc() {
+	rl.GuiToggle({10, 330, 20, 20}, "", &is_pin)
+	if is_pin {
+		rl.SetWindowState({.WINDOW_TOPMOST})
+	} else {
+		rl.ClearWindowState({.WINDOW_TOPMOST})
+	}
+}
+
+is_borderless := false
+
+boaderless :: proc() {
+	rl.GuiToggle({40, 330, 20, 20}, "", &is_borderless)
+	if is_borderless {
+		rl.SetWindowState({.WINDOW_UNDECORATED})
+	} else {
+		rl.ClearWindowState({.WINDOW_UNDECORATED})
+	}
+}

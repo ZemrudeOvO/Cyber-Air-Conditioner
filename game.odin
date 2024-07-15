@@ -58,5 +58,6 @@ _draw :: proc() {
 	draw_decrease_temp_btn()
 	draw_temp()
 	draw_wind_symbol()
-
+	pin()
+	boaderless()
 }
