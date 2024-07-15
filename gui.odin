@@ -16,7 +16,6 @@ button :: struct {
 on_off_btn := button{270, 250, 20}
 increase_temp_btn := button{320, 250, 20}
 decrease_temp_btn := button{320, 300, 20}
-fan_swap_btn := button{270, 300, 20}
 
 is_button_pressed :: proc(btn: button) -> bool {
 	return(
@@ -112,45 +111,25 @@ draw_temp :: proc() {
 }
 
 draw_wind_symbol :: proc() {
-	if on_off {
-		rlgl.PushMatrix()
-		rlgl.Translatef(170, 170, 0)
-		rlgl.Rotatef(0, 0, 0, 1)
-		rl.DrawRectangleRounded({-5, -7, 10, 40}, 5, 8, {255, 255, 255, 64})
-		rlgl.PopMatrix()
+	rlgl.PushMatrix()
+	rlgl.Translatef(170, 170, 0)
+	rlgl.Rotatef(45, 0, 0, 1)
+	rl.DrawRectangleRounded({-5, -7, 10, 40}, 5, 8, {255, 255, 255, auto_cast (128 * volume)})
+	rlgl.PopMatrix()
 
-		rlgl.PushMatrix()
-		rlgl.Translatef(320, 170, 0)
-		rlgl.Rotatef(rotation, 0, 0, 1)
-		rl.DrawRectangleRounded({-5, -7, 10, 40}, 5, 8, {255, 255, 255, 64})
-		rlgl.PopMatrix()
+	rlgl.PushMatrix()
+	rlgl.Translatef(320, 170, 0)
+	rlgl.Rotatef(0, 0, 0, 1)
+	rl.DrawRectangleRounded({-5, -7, 10, 40}, 5, 8, {255, 255, 255, auto_cast (128 * volume)})
+	rlgl.PopMatrix()
 
-		rlgl.PushMatrix()
-		rlgl.Translatef(470, 170, 0)
-		rlgl.Rotatef(rotation, 0, 0, 1)
-		rl.DrawRectangleRounded({-5, -7, 10, 40}, 5, 8, {255, 255, 255, 64})
-		rlgl.PopMatrix()
-	}
-
+	rlgl.PushMatrix()
+	rlgl.Translatef(470, 170, 0)
+	rlgl.Rotatef(-45, 0, 0, 1)
+	rl.DrawRectangleRounded({-5, -7, 10, 40}, 5, 8, {255, 255, 255, auto_cast (128 * volume)})
+	rlgl.PopMatrix()
 }
 
-rotation: f32 = 0
-is_swap := false
-
-fan_swap :: proc() {
-	if is_swap {
-		rotation += f32(math.cos(rl.GetTime()))
-		fmt.println(rotation)
-	}
+draw_light :: proc() {
+	rl.DrawCircle(569, 133, 2, on_off ? {255, 255, 0, 255} : {180, 180, 180, 255})
 }
-
-draw_fan_swap_btn :: proc() {
-	rl.DrawCircle(
-		fan_swap_btn.x,
-		fan_swap_btn.y,
-		fan_swap_btn.radius,
-		is_swap ? {200, 200, 50, 255} : {150, 150, 150, 255},
-	)
-}
-
-wind_strength := 3

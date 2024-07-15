@@ -11,11 +11,11 @@ volume: f32 = 0
 volume_delta: f32
 
 load_sound :: proc() {
-	data_di := #load("/audios/di.mp3")
+	data_di := #load("audios/di.mp3")
 	wav_di := rl.LoadWaveFromMemory(".mp3", raw_data(data_di[:]), auto_cast len(data_di[:]))
 	di = rl.LoadSoundFromWave(wav_di)
 
-	data_fan := #load("/audios/fan.mp3")
+	data_fan := #load("audios/fan.mp3")
 	fan = rl.LoadMusicStreamFromMemory(".mp3", raw_data(data_fan[:]), auto_cast len(data_fan[:]))
 }
 
@@ -33,7 +33,6 @@ play_sound :: proc() {
 	volume = clamp(volume, 0, 1)
 	if volume != 0 && volume != 1 {
 		rl.SetMusicVolume(fan, volume)
-		fmt.println(volume)
 	}
 
 	if rl.GetMusicTimePlayed(fan) > rl.GetMusicTimeLength(fan) - 2 {
