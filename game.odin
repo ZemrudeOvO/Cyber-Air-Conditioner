@@ -10,8 +10,10 @@ import rl "vendor:raylib"
 _ready :: proc() {
 	load_sound()
 
-	ac := rl.LoadImage(abs_path("/images/AC.png"))
-	tex_ac := rl.LoadTextureFromImage(ac)
+	data_ac := #load("/images/AC.png")
+	img_ac := rl.LoadImageFromMemory(".png", raw_data(data_ac[:]), auto_cast len(data_ac[:]))
+	tex_ac := rl.LoadTextureFromImage(img_ac)
+
 	scale: f32 = 0.15
 
 	layers[0] = {
@@ -26,21 +28,28 @@ _ready :: proc() {
 _update :: proc() {
 	if is_button_pressed(on_off_btn) {
 		on_off = !on_off
-		rl.PlaySound(di)
-		fmt.println(on_off)
 	}
 
 	if is_button_pressed(increase_temp_btn) && on_off {
 		temp += 1
+		temp = clamp(temp, 16, 30)
 		rl.PlaySound(di)
 		fmt.println(temp)
 	}
 
 	if is_button_pressed(decrease_temp_btn) && on_off {
 		temp -= 1
+		temp = clamp(temp, 16, 30)
 		rl.PlaySound(di)
 		fmt.println(temp)
 	}
+
+	if is_button_pressed(fan_swap_btn) {
+		is_swap = !is_swap
+	}
+
+	fan_swap()
+	play_sound()
 }
 
 _draw :: proc() {
@@ -53,6 +62,7 @@ _draw :: proc() {
 	draw_on_off_btn()
 	draw_increase_temp_btn()
 	draw_decrease_temp_btn()
+	draw_fan_swap_btn()
 	draw_temp()
 	draw_wind_symbol()
 
